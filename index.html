@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <title>Welcome to Vue</title>
-  <script src="https://unpkg.com/d3@3.5.17"></script>
+  <script src="https://unpkg.com/d3"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <style>
 
@@ -36,7 +36,7 @@
           var width = 420,
               barHeight = 20;
 
-          var x = d3.scale.linear()
+          var x = d3.scaleLinear()
               .domain([0, d3.max(data)])
               .range([0, width]);
 
@@ -46,19 +46,22 @@
 
           var d = chart.selectAll("g")
               .data(data);
-          d.enter().append("g")
+
+          d.exit().remove();
+
+          var g = d.enter().append("g")
               .merge(d)
               .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-          d.append("rect")
+          g.selectAll("rect").remove();
+          g.selectAll("text").remove();
+          g.append("rect")
               .attr("width", x)
               .attr("height", barHeight - 1);
-          d.append("text")
+          g.append("text")
               .attr("x", function(d) { return x(d) - 3; })
               .attr("y", barHeight / 2)
               .attr("dy", ".35em")
               .text(function(d) { return d; });
-
-          d.exit().remove();
         }
       },
       mounted: function() {

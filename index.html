@@ -22,34 +22,32 @@
   </div>
 
   <script>
-    function update(data) {
-      var d3data = d3.select(".chart")
-        .selectAll("div")
-        .data(data);
-      d3data
-        .enter().append("div")
-        .merge(d3data)
-        .style("width", function(d) { return d * 10 + "px"; })
-        .text(function(d) { return d; })
-      d3data.exit().remove();
-    }
-
     var vm = new Vue({
       el: '#app',
       data: {
         data: [4, 8, 15, 16, 23, 42]
       },
+      methods: {
+        updateChart: function(data) {
+          var d = d3.select(this.$el)
+            .selectAll("div")
+            .data(data);
+          d.enter().append("div")
+            .merge(d)
+            .style("width", function(d) { return d * 10 + "px"; })
+            .text(function(d) { return d; })
+          d.exit().remove();
+        }
+      },
       mounted: function() {
-        update(this.$data.data);
+        this.updateChart(this.$data.data);
       },
       watch: {
         data: function(val) {
-          console.log("watch.data val=", val);
-          update(val);
+          this.updateChart(val);
         }
       }
     });
-    window.vm = vm;
   </script>
 </body>
 </html>

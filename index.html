@@ -30,7 +30,7 @@
         data: [4, 8, 15, 16, 23, 42]
       },
       methods: {
-        updateChart: function(data) {
+        renderChart: function(data) {
           // This code is based on https://bost.ocks.org/mike/bar/2/
 
           var width = 420,
@@ -65,11 +65,11 @@
         }
       },
       mounted: function() {
-        this.updateChart(this.$data.data);
+        this.renderChart(this.$data.data);
       },
       watch: {
         data: function(val) {
-          this.updateChart(val);
+          this.renderChart(val);
         }
       }
     });
